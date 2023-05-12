@@ -5,17 +5,30 @@
  */
 const User = (Sequelize, DataTypes) => {
   const UserTable = Sequelize.define('User', {
-    id: DataTypes.INTEGER,
-    displayName: DataTypes.STRING,
-    email: DataTypes.STRING,
-    password: DataTypes.STRING,
-    image: DataTypes.STRING
-  }, 
-  { tableName: 'users',
+    id: {
+      autoIncrement: true,
+      primaryKey: true,
+      type: DataTypes.INTEGER,
+    },
+    displayName: {
+      allowNull: false,
+      type: DataTypes.STRING,
+    },
+    email: {
+      type: DataTypes.STRING,
+      unique: true,
+    },
+    password: {
+      allowNull: false,
+      type: DataTypes.STRING,
+    },
+    image: DataTypes.STRING,
+  }, {
+    tableName: 'users',
+    timestamps: false,
     underscored: true,
-    timestamps: false 
-  },
-);
+  });
+  
   return UserTable;
 };
 
