@@ -10,6 +10,16 @@ const loginCheck = async (req, res) => {
   return res.status(200).json({ token });
 };
 
+const create = async (req, res) => {
+  const user = await userService.create(req.body);
+  const { type, message, data } = user;
+  if (type) return res.status(type).json({ message });
+
+  const token = authFunctions.createToken(data);
+  return res.status(201).json({ token });
+};
+
 module.exports = {
   loginCheck,
+  create,
 };

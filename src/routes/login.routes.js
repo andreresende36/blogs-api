@@ -1,6 +1,6 @@
 const express = require('express');
-const validateBlankValues = require('../validations/validateBlankValues');
-const validateLoginFields = require('../validations/validateLoginFields');
+const validateBlankValues = require('../middlewares/validateBlankValues');
+const validateLoginFields = require('../middlewares/validateLoginFields');
 const userController = require('../controllers/user.controller');
 
 const router = express.Router();
