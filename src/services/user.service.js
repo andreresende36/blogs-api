@@ -19,7 +19,13 @@ const create = async ({ displayName, email, password, image = '' }) => {
   return { type: null, message: 'OK', data: dataValues };
 };
 
+const getAll = async () => {
+  const users = await User.findAll({ attributes: ['id', 'displayName', 'email', 'image'] });
+  return users;
+};
+
 module.exports = {
   loginCheck,
   create,
+  getAll,
 };
