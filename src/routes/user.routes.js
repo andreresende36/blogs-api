@@ -7,6 +7,7 @@ const userController = require('../controllers/user.controller');
 
 const router = express.Router();
 
+router.get('/:id', validateToken, userController.findById);
 router.get('/', validateToken, userController.getAll);
 
 const userPostValidations = [validateDisplayName, validateEmail, validatePassword];
