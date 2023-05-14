@@ -6,6 +6,16 @@ const getAll = async (req, res) => {
   return res.status(200).json(posts);
 };
 
+const findById = async (req, res) => {
+  const postId = Number(req.params.id);
+
+  const { type, message, data } = await postService.findById(postId);
+
+  if (type) return res.status(type).json({ message });
+  
+  return res.status(200).json(data);
+};
+
 const create = async (req, res) => {
   const post = req.body;
   const userId = req.payload.data.id;
@@ -20,4 +30,5 @@ const create = async (req, res) => {
 module.exports = { 
   create,
   getAll,
+  findById,
 };

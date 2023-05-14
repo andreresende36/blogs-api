@@ -13,6 +13,22 @@ const getAll = async () => {
   return posts;
 };
 
+const findById = async (postId) => {
+  const post = await BlogPost.findByPk(
+    postId, 
+    { include: [
+      { model: User, as: 'user', attributes: { exclude: 'password' } },
+      { model: Category,
+        as: 'categories',
+        through: { attributes: [] } },
+      ],
+    },
+);
+  if (!post) return { type: 404, message: 'Post does not exist', data: null };
+
+  return { type: null, message: 'OK', data: post };
+};
+
 const create = async ({ title, content, categoryIds, userId }) => {
   try {
     const result = await sequelize.transaction(async (t) => {
@@ -34,4 +50,5 @@ const create = async ({ title, content, categoryIds, userId }) => {
 module.exports = { 
   create,
   getAll,
+  findById,
 };
