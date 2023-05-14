@@ -1,4 +1,17 @@
-const { BlogPost, PostCategory, sequelize } = require('../models');
+const { User, Category, BlogPost, PostCategory, sequelize } = require('../models');
+
+const getAll = async () => {
+  const posts = await BlogPost.findAll({ 
+    include: [
+      { model: User, as: 'user', attributes: { exclude: 'password' } },
+      { model: Category,
+        as: 'categories',
+        through: { attributes: [] } },
+    ], 
+  });
+
+  return posts;
+};
 
 const create = async ({ title, content, categoryIds, userId }) => {
   try {
@@ -6,8 +19,8 @@ const create = async ({ title, content, categoryIds, userId }) => {
       const date = new Date();
       const { dataValues } = await BlogPost.create({ 
         title, content, userId, published: date, updated: date }, { transaction: t });
-      const postId = dataValues.id;
-      
+        const postId = dataValues.id;
+
       // Inserção do par postId-categoryId
       await Promise.all(categoryIds.map(async (categoryId) => {
         await PostCategory.create({ postId, categoryId }, { transaction: t });
@@ -19,5 +32,6 @@ const create = async ({ title, content, categoryIds, userId }) => {
 };
 
 module.exports = { 
-  create, 
+  create,
+  getAll,
 };
