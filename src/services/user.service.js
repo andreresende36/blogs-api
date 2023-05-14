@@ -2,10 +2,10 @@ const { Op } = require('sequelize');
 const { User } = require('../models');
 
 const loginCheck = async ({ email, password }) => {
-  const { dataValues } = await User.findOne({ 
+  const user = await User.findOne({ 
     where: { [Op.and]: [{ email }, { password }] },
   });
-  return dataValues;
+  return user ? user.dataValues : undefined;
 };
 
 const create = async ({ displayName, email, password, image = '' }) => {
