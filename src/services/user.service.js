@@ -32,9 +32,18 @@ const findById = async (id) => {
   return user;
 };
 
+const exclude = async (userId) => {
+  await User.destroy({
+    where: {
+      id: userId,
+    },
+  });
+};
+
 module.exports = {
   loginCheck,
   create,
   getAll,
   findById,
+  exclude,
 };

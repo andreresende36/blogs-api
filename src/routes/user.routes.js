@@ -13,4 +13,6 @@ router.get('/', validateToken, userController.getAll);
 const userPostValidations = [validateDisplayName, validateEmail, validatePassword];
 router.post('/', userPostValidations, userController.create);
 
+router.delete('/me', validateToken, userController.exclude);
+
 module.exports = router;

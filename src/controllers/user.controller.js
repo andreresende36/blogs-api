@@ -35,9 +35,17 @@ const findById = async (req, res) => {
   return res.status(200).json(user);
 };
 
+const exclude = async (req, res) => {
+  const userId = req.payload.data.id;
+  await userService.exclude(userId);
+
+  return res.status(204).json();
+};
+
 module.exports = {
   loginCheck,
   create,
   getAll,
   findById,
+  exclude,
 };
