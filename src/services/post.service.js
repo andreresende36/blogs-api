@@ -44,7 +44,7 @@ const create = async ({ title, content, categoryIds, userId }) => {
       return dataValues;
     });
     return { type: null, message: 'OK', data: result };
-  } catch (error) { return { type: 500, message: 'Erro interno do servidor', data: null }; }
+  } catch (error) { return { type: 500, message: 'Internal server error', data: null }; }
 };
 
 const update = async (postId, { title, content }) => {
@@ -64,7 +64,20 @@ const update = async (postId, { title, content }) => {
     });
     return { type: null, message: 'OK', data: result };
   } catch (error) {
-    return { type: 500, message: 'Erro interno do seridor' };
+    return { type: 500, message: 'Internal server error' };
+  }
+};
+
+const exclude = async (postId) => {
+  try {
+    const result = await BlogPost.destroy({
+      where: {
+        id: postId,
+      },
+    });
+    return { type: null, message: 'OK', data: result };
+  } catch (error) {
+    return { type: 500, message: 'Internal server error', data: null };
   }
 };
 
@@ -73,4 +86,5 @@ module.exports = {
   getAll,
   findById,
   update,
+  exclude,
 };
