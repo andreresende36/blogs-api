@@ -47,8 +47,30 @@ const create = async ({ title, content, categoryIds, userId }) => {
   } catch (error) { return { type: 500, message: 'Erro interno do servidor', data: null }; }
 };
 
+const update = async (postId, { title, content }) => {
+  try {
+    await BlogPost.update({ title, content }, {
+      where: {
+        id: postId,
+      },
+    });
+    const result = await BlogPost.findByPk(postId, {
+      include: [
+        { model: User, as: 'user', attributes: { exclude: 'password' } },
+        { model: Category,
+        as: 'categories',
+        through: { attributes: [] } },
+      ],
+    });
+    return { type: null, message: 'OK', data: result };
+  } catch (error) {
+    return { type: 500, message: 'Erro interno do seridor' };
+  }
+};
+
 module.exports = { 
   create,
   getAll,
   findById,
+  update,
 };

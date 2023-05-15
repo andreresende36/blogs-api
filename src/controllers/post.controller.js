@@ -27,8 +27,18 @@ const create = async (req, res) => {
   return res.status(201).json(data);
 };
 
+const update = async (req, res) => {
+  const postId = Number(req.params.id);
+  const { type, message, data } = await postService.update(postId, req.body);
+
+  if (type) return res.status(type).json({ message });
+  
+  return res.status(200).json(data);
+};
+
 module.exports = { 
   create,
   getAll,
   findById,
+  update,
 };
